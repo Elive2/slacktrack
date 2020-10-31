@@ -1,9 +1,8 @@
 from app import app
 from flask import request, jsonify
-import requests #used in getUsers()
-import os
-
-SLACKWEBAPIURL = "https://slack.com/api/users.list"
+from . import dbmethods
+from . import helpers
+import json
 
 @app.route('/')
 def hello():
@@ -24,25 +23,21 @@ def slack():
 def hardSyncUsers():
 	#this is a blocking request for now, could be asynced or threaded later on
 	#see celery, asyncio or the likes
-	users = getUsers()
-
-	return users
-
-
-def getUsers():
-	querystring = {"team_id":"T01DEQZBWQN"}
-	token = os.getenv('AUTH_TOKEN')
-	print("token" + token)
-	payload = ""
-	headers = {
-    	'Authorization': "Bearer " + token,
-    	'cache-control': "no-cache",
-    }
 	try:
-		response = requests.request("GET", SLACKWEBAPIURL, data=payload, headers=headers, params=querystring)
-		response.raise_for_status()
-	except requests.exceptions.HTTPError as err:
-		return err
+		users = helpers.getUsers()
+	except RuntimeError as e:
+		return "Could not fetch users from Slack Web API. ERROR:" + e
 
-	return response.json()
+
+	cleanedUsers = helpers.clean(users)
+
+	try:
+		dbmethods.persistToDB(cleanedUsers)
+	except:
+		return "Error persisting to database, check mongo"
+
+	print("returning user[1]", cleanedUsers[1])
+	return json.dumps(cleanedUsers[1])
+
+
 	
