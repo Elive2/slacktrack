@@ -62,8 +62,8 @@ def slack():
 			return "Error updating user in database, check mongo"
 
 	elif 'channel' in eventType:
-		break
-		helpers.log("detected channel change")
+		pass
+		#helpers.log("detected channel change")
 
 	elif eventType == 'team_join':
 		helpers.log("new member joined")

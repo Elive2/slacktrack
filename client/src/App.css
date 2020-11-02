@@ -1,0 +1,29 @@
+body {
+  background-color: black;
+}
+
+.App-header {
+  background-color: black;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px;
+  justify-content: left;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+#UserTable {
+  
+  width: 900px;
+}
+
+#centered-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
