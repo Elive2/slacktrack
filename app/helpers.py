@@ -3,10 +3,13 @@ import os
 
 SLACKWEBAPIURL = "https://slack.com/api/users.list"
 
+def log(msg):
+	print(msg)
+
+
 def getUsers():
 	querystring = {"team_id":"T01DEQZBWQN"}
 	token = os.getenv('AUTH_TOKEN')
-	print("token" + token)
 	payload = ""
 	headers = {
     	'Authorization': "Bearer " + token,
@@ -19,21 +22,20 @@ def getUsers():
 		raise RuntimeError("HTTPError: " + err)
 		return 
 
-	return response.json()
+	return response.json()['members']
 
 def clean(userData):
-	cleanedData = []
-	for member in userData['members']:
-		cleanedData.append( {
-			"usrID": member['id'],
-			"color": member['color'],
-			"is_admin": member['is_admin'],
-			"is_bot": member['is_bot'],
-			"display_name": member['profile']['display_name'],
-			"image": member['profile']['image_192'],
-			"real_name": member['profile']['real_name'],
-			"updated": member['updated'],
-			"deleted": member['deleted'],
-			})
+	# cleanedData = {
+	# 	"usrID": member['id'],
+	# 	"color": member['color'],
+	# 	"is_admin": member['is_admin'],
+	# 	"is_bot": member['is_bot'],
+	# 	"display_name": member['profile']['display_name'],
+	# 	"image": member['profile']['image_192'],
+	# 	"real_name": member['profile']['real_name'],
+	# 	"updated": member['updated'],
+	# 	"deleted": member['deleted'],
+	# 	}
+	cleanedData = userData
 
 	return cleanedData
