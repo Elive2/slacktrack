@@ -27,5 +27,9 @@ and gets configuration from .flaskenv
 mongo db should be running with
 
 	brew services start mongodb-community
+
+start the react development server with
+	
+	yarn start
 '''
 from app import app

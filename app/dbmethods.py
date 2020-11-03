@@ -78,3 +78,15 @@ def removeUser(data):
 	x = collection.delete_one(query)
 	helpers.log(x)
 	helpers.log("deleted successfully")
+
+def getUsers():
+	global _db
+	collection = _db['slackUsers']
+	usersCursor = collection.find()
+	users = []
+	i = 0
+	for user in usersCursor:
+		user['_id'] = str(user['_id'])
+		users.append(user)
+		i+=1
+	return users
