@@ -40,7 +40,6 @@ def persistToDB(data):
 	collection = _db['slackUsers']
 	collection.remove()
 	x = collection.insert_many(data)
-	helpers.log(x)
 	helpers.log("persisted successfully")
 	return
 
@@ -55,11 +54,12 @@ Parameters:
 '''
 def updateUser(data):
 	global _db
-	helpers.log(data)
 	collection = _db['slackUsers']
 	query = {'id': data['id']}
-	x = collection.replace_one(query, data)
-	helpers.log(x)
+	if(collection.find_one(query)):
+		x = collection.replace_one(query, data)
+	else:
+		addUser(data)
 	helpers.log("updated successfully")
 	return
 
@@ -67,8 +67,7 @@ def addUser(data):
 	global _db
 	collection = _db['slackUsers']
 	x = collection.insert_one(data)
-	helpers.log(x)
-	helpers.log("persisted successfully")
+	helpers.log("added successfully")
 	return
 
 def removeUser(data):
@@ -76,7 +75,6 @@ def removeUser(data):
 	collection = _db['slackUsers']
 	query = {'id': data['id']}
 	x = collection.delete_one(query)
-	helpers.log(x)
 	helpers.log("deleted successfully")
 
 def getUsers():

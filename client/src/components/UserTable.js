@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Button } from 'reactstrap';
 
-let APIURL = 'http://localhost:5000/users'
+let APIURL = 'http://localhost:5000/activeUsers'
 
 function fetchUsers() {
   fetch(APIURL)

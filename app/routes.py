@@ -1,10 +1,6 @@
 '''
 TODO: Secure routes somehow, ensure they are only hit by valid slack events
 
-[ ] - current behavior: When an account is deactivated the delete user method removes
-them from the database, but then hardsync adds them back just a a deleted account. Reactivating
-a user doesn't work without a hardsync because flask processes this as a user update event
-not the team_join event yet.
 '''
 
 from app import app
@@ -56,11 +52,6 @@ def slack():
 	if eventType == 'user_change':
 		helpers.log("updating user")
 		user = event['user']
-		if user['deleted']:
-			try:
-				dbmethods.removeUser(user)
-			except:
-				return "Error removing user in database, check mongo"
 		try:
 			dbmethods.updateUser(user)
 		except:
@@ -115,11 +106,21 @@ def hardSyncUsers():
 
 	return "success"
 
-@app.route('/users', methods=['GET'])
-def users():
+@app.route('/allUsers', methods=['GET'])
+def allUsers():
 	users = dbmethods.getUsers()
-	print(users)
 	return {'users': users}
+
+
+@app.route('/activeUsers', methods=['GET'])
+def activeUsers():
+	users = dbmethods.getUsers()
+	activeUsers = []
+	for user in users:
+		if not user['deleted']:
+			activeUsers.append(user)
+
+	return {'users': activeUsers}
 
 
 
