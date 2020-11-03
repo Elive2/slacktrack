@@ -35,6 +35,7 @@ def connect(host):
 	helpers.log("connecting to DB")
 	_host = pymongo.MongoClient(host)
 	_db = _host['slacktrackdb']
+	helpers.log("connection successful")
 	return _db
 
 '''
