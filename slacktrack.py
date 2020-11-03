@@ -38,9 +38,26 @@ Deployment Checklist:
 	AUTH_TOKEN=
 	MONGODB_URI=
 	REACT_APP_API_URL=
+	HOST_IP=
+	PORT_APP=
 	
 '''
+from gevent import monkey
+monkey.patch_all()
+
+from gevent.pywsgi import WSGIServer
 from app import app
+import os
 
 if __name__ == '__main__':
-	app.run(use_reloader=True, port=5000, threaded=True)
+	#app.run(use_reloader=True, port=5000, threaded=True)
+	if os.getenv('HOST_IP'):
+		ip = os.getenv('HOST_IP')
+	else:
+		ip = '127.0.0.1'
+	if os.getenv('PORT_APP'):
+		port = int(os.getenv('PORT_APP'))
+	else:
+		port = 5000
+	http_server = WSGIServer((ip, port), app)
+	http_server.serve_forever()
