@@ -1,3 +1,15 @@
+'''
+File: dbmethods.py
+
+Description:
+This module contains all the database methods that interact with mongo. There are 
+functions to connect and add/delete/modify/get users.
+The db connection is exposed as the global variable _db and the inital connection
+is made suring startup of the flask app in __init__.py
+
+Author: Eli Yale
+'''
+
 import pymongo
 from . import helpers
 
@@ -63,6 +75,15 @@ def updateUser(data):
 	helpers.log("updated successfully")
 	return
 
+'''
+Function: updateUser
+
+Description:
+add a user to the db
+
+Parameters:
+	data - (dict) of a single users info
+'''
 def addUser(data):
 	global _db
 	collection = _db['slackUsers']
@@ -70,6 +91,15 @@ def addUser(data):
 	helpers.log("added successfully")
 	return
 
+'''
+Function: updateUser
+
+Description:
+remove a user from the db
+
+Parameters:
+	data - (dict) of a single users info
+'''
 def removeUser(data):
 	global _db
 	collection = _db['slackUsers']
@@ -77,6 +107,15 @@ def removeUser(data):
 	x = collection.delete_one(query)
 	helpers.log("deleted successfully")
 
+'''
+Function: updateUser
+
+Description:
+return all users currently synced to the database
+
+Parameters:
+	data - (dict) of a single users info
+'''
 def getUsers():
 	global _db
 	collection = _db['slackUsers']

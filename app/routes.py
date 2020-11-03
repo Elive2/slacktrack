@@ -1,10 +1,23 @@
 '''
+File: routes.py
+
+Description: this file defines all the public facing routes exposed by the app
+It is a simple Restful API with one route for clients and one route for slack
+to post events to.
+
+Author: Eli Yale
+
 TODO: Secure routes somehow, ensure they are only hit by valid slack events
 
+[ ] - switch to aiohttp - should be trivial https://gist.github.com/rcarmo/3f0772f2cbe0612b699dcbb839edabeb
+	or try flask multithreaded
+	or try flask with gevent https://iximiuz.com/en/posts/flask-gevent-tutorial/
+		-if we do this should be able to just set up long polling
+		 and test with a few connections
 '''
 
 from app import app
-from flask import request, jsonify, Response
+from flask import request, jsonify, Response, send_from_directory
 from . import dbmethods
 from . import helpers
 import json
@@ -16,9 +29,14 @@ Function: hello
 
 Description: index route returns the home view
 '''
-@app.route('/')
-def hello():
-	return 'Hello World'
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+	if path != "" and os.path.exists(app.static_folder + '/' + path):
+		return send_from_directory(app.static_folder, path)
+	else:
+		print(app.static_folder)
+		return send_from_directory(app.static_folder, 'index.html')
 
 '''
 Function: slack
@@ -36,7 +54,6 @@ eventually would want to async this with an event handler queue
 slack reccomends returning 200 immediately and processing event after
 the asyncio event queue would be very useful here
 '''
-
 @app.route('/slack', methods=['POST'])
 def slack():
 	data = request.json
@@ -106,12 +123,27 @@ def hardSyncUsers():
 
 	return "success"
 
+
+'''
+Function: allUsers()
+
+Description:
+return all users found in the database. This includes deactivated ones.
+Slack maintains deactivated users just with the 'deleted' field set to true
+
+'''
 @app.route('/allUsers', methods=['GET'])
 def allUsers():
 	users = dbmethods.getUsers()
 	return {'users': users}
 
+'''
+Function: activeUsers
 
+Description:
+returns only active users by filtering with the 'deleted' field
+
+'''
 @app.route('/activeUsers', methods=['GET'])
 def activeUsers():
 	users = dbmethods.getUsers()

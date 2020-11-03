@@ -1,7 +1,17 @@
+/*
+File: UserTable.js
+
+Description:
+This file implements the main user table component which displays all the users
+currently synced from slack. It uses the reactstrap table. It fetches data from the
+flask API.
+
+*/
+
 import React from 'react';
 import { Table, Button } from 'reactstrap';
 
-let APIURL = 'http://localhost:5000/activeUsers'
+let APIURL = process.env.REACT_APP_API_URL + 'activeUsers/' 
 
 function fetchUsers() {
   fetch(APIURL)

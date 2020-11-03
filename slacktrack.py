@@ -31,5 +31,16 @@ mongo db should be running with
 start the react development server with
 	
 	yarn start
+
+Deployment Checklist:
+	Set environment variable
+
+	AUTH_TOKEN=
+	MONGODB_URI=
+	REACT_APP_API_URL=
+	
 '''
 from app import app
+
+if __name__ == '__main__':
+	app.run(use_reloader=True, port=5000, threaded=True)
