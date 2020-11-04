@@ -57,16 +57,19 @@ The app is currently deployed on a digital ocean droplet and can be found at:
 
 4. ensure mongodb is running
 
-5. start gunicorn and the app with
+5. ensure slack events API is pointing to the right URL
 
-	sudo supervisorctl start slacktrack
+6. start gunicorn and the app with
+
+	sudo systemctl start slacktrack
 	
 Architecture:
 
 
-react client <-> flask <-> mongo
-					\
-					 Slack
+react client < ******** > flask < ******* > mongo
+							*
+							 *
+							  * > Slack
 
 url to manage slack app:
 	https://api.slack.com/apps/A01DTN37L4U
