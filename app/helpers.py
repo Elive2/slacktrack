@@ -10,6 +10,9 @@ def log(msg):
 def getUsers():
 	querystring = {"team_id":"T01DEQZBWQN"}
 	token = os.getenv('AUTH_TOKEN')
+	if token is none:
+		raise RuntimeError("No AUTH_TOKEN set")
+
 	payload = ""
 	headers = {
     	'Authorization': "Bearer " + token,
