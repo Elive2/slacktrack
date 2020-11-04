@@ -50,8 +50,9 @@ from app import app
 import os
 
 if __name__ == '__main__':
-	#app.run(use_reloader=True, port=5000, threaded=True)
-	if os.getenv('HOST_IP'):
+	app.run(use_reloader=True, threaded=True)
+	'''
+        if os.getenv('HOST_IP'):
 		ip = os.getenv('HOST_IP')
 	else:
 		ip = '127.0.0.1'
@@ -61,3 +62,4 @@ if __name__ == '__main__':
 		port = 5000
 	http_server = WSGIServer((ip, port), app)
 	http_server.serve_forever()
+        '''
