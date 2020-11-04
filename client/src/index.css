@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#GitLogo {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+#GitLogoImg {
+	width: 100px;
+}

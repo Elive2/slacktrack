@@ -4,9 +4,7 @@ from . import dbmethods
 from flask_cors import CORS
 
 app = Flask(__name__, static_url_path='', static_folder='../client/build')
-
-
-#CORS(app)
+# CORS(app)
 
 MONGOHOST = os.getenv("MONGODB_URI", "mongodb://localhost:27017") 
 

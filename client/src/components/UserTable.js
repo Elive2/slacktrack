@@ -13,24 +13,6 @@ import { Table, Button } from 'reactstrap';
 
 let APIURL = process.env.REACT_APP_API_URL + 'activeUsers' 
 
-function fetchUsers() {
-  fetch(APIURL)
-    .then(response => response.json())
-    .then(data => {
-      console.log("success")
-      console.log(data);
-      return data;
-    })
-    .catch(error => {
-      console.log("there was an error fetching users: ", error);
-      return;
-    });
-}
-
-function fetchUpdate() {
-  return
-}
-
 class UserTable extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +23,7 @@ class UserTable extends React.Component {
     };
   }
 
-  componentDidMount() {
+  fetchUsers = () => {
     fetch(APIURL)
       .then(response => response.json())
       .then(resData => {
@@ -59,6 +41,10 @@ class UserTable extends React.Component {
           });
         }
       )
+  }
+
+  componentDidMount() {
+    this.fetchUsers();
   }
 
   getType(userData) {
@@ -111,6 +97,7 @@ class UserTable extends React.Component {
               ))}
             </tbody>
           </Table>
+          <Button onClick={this.fetchUsers}>Refresh</Button>
         </div>
       );
     }
