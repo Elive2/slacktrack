@@ -11,7 +11,7 @@ flask API.
 import React from 'react';
 import { Table, Button } from 'reactstrap';
 
-let APIURL = process.env.REACT_APP_API_URL + 'activeUsers/' 
+let APIURL = process.env.REACT_APP_API_URL + 'activeUsers' 
 
 function fetchUsers() {
   fetch(APIURL)
