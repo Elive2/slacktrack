@@ -1,3 +1,6 @@
 /env/*
 .flaskenv
 __pycache__/
+config.sh
+slacktrack.sock
+.env
